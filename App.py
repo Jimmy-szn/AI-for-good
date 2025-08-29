@@ -1,56 +1,69 @@
-import ee
-import geemap
+# app.py
+from flask import Flask, render_template, request, jsonify
+from utils.gemini_advisor import RegenerativeAdvisor
+from utils.weather_service import WeatherService
+from data.kenya_agriculture import KENYA_CROPS, SOIL_TYPES, KENYAN_REGIONS
+import os
 
-# Initialize the Earth Engine API
-ee.Initialize()
+app = Flask(__name__)
+advisor = RegenerativeAdvisor()
+weather_service = WeatherService()
 
-# Set the AOI to your farm location
-farm_location = [36.5230, 0.1804]  # example farm location
-aoi = ee.Geometry.Point(farm_location).buffer(1000)  # 1 km radius buffer
+@app.route('/')
+def home():
+    """Main landing page"""
+    return render_template('index.html', 
+                         crops=list(KENYA_CROPS.keys()),
+                         soil_types=list(SOIL_TYPES.keys()),
+                         regions=KENYAN_REGIONS)
 
-# Define the date range
-start_year = 2024
-start_month = 1
-end_year = 2024
-end_month = 2
-dry_day_threshold = 0.1  # in mm
+@app.route('/generate-plan', methods=['POST'])
+def generate_plan():
+    """Generate regenerative agriculture plan"""
+    try:
+        # Get form data
+        farm_data = {
+            'location': request.json.get('location', ''),
+            'size': request.json.get('size', ''),
+            'crops': request.json.get('crops', ''),
+            'soil_type': request.json.get('soil_type', ''),
+            'experience': request.json.get('experience', 'beginner'),
+            'goals': request.json.get('goals', '')
+        }
+        
+        # Get weather data
+        weather_data = weather_service.get_location_weather(farm_data['location'])
+        
+        # Generate AI plan
+        regenerative_plan = advisor.generate_farming_plan(farm_data, weather_data)
+        
+        return jsonify({
+            'success': True,
+            'plan': regenerative_plan,
+            'weather': weather_data,
+            'farm_info': farm_data
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': f"Error generating plan: {str(e)}"
+        }), 500
 
-# Create date objects
-start_date = ee.Date.fromYMD(start_year, start_month, 1)
-end_date = ee.Date.fromYMD(end_year, end_month, 1).advance(1, 'month')
+@app.route('/quick-tips', methods=['POST'])
+def quick_tips():
+    """Generate quick regenerative tips"""
+    crop = request.json.get('crop', 'maize')
+    soil = request.json.get('soil', 'loamy')
+    
+    prompt = f"""Give 3 practical regenerative agriculture tips for {crop} farming on {soil} soil in Kenya. Each tip should be one clear sentence."""
+    
+    try:
+        model = advisor.model
+        response = model.generate_content(prompt)
+        return jsonify({'tips': response.text})
+    except:
+        return jsonify({'tips': 'Tips temporarily unavailable. Please try the full plan generator.'})
 
-# Load the CHIRPS daily precipitation dataset
-chirps = ee.ImageCollection('UCSB-CHG/CHIRPS/DAILY') \
-    .filterDate(start_date, end_date) \
-    .filterBounds(aoi)
-
-
-# Get the daily precipitation values for the AOI
-def get_daily_precipitation(image):
-    # Reduce the image to get a mean precipitation value for the AOI.
-    # We use .get() with a default value of -1 to avoid nulls.
-    value = image.reduceRegion(
-        reducer=ee.Reducer.mean(),
-        geometry=aoi,
-        scale=5566,  # CHIRPS native resolution is ~5.5km
-        tileScale=16
-    ).get('precipitation', -1)
-
-    # Return a feature with the value and date.
-    return ee.Feature(None, {'precipitation': value, 'date': image.date().format('YYYY-MM-dd')})
-
-
-# Map the function over the collection to get a FeatureCollection of daily values.
-daily_features = chirps.map(get_daily_precipitation)
-
-# Aggregate the precipitation values into a list.
-daily_precipitation_list = daily_features.aggregate_array('precipitation').getInfo()
-
-# Count the number of "dry days" from the list of values.
-dry_days_count = sum(1 for p in daily_precipitation_list if p != -1 and p < dry_day_threshold)
-
-# Print the results
-total_images = chirps.size().getInfo()
-print(f"Total days in the date range: {total_images}")
-print(f"Number of dry days (mean precipitation < {dry_day_threshold} mm): {dry_days_count}")
-print(f"Daily precipitation values (mm): {daily_precipitation_list}")
+if __name__ == '__main__':
+    app.run(debug=True, port=5000)
