@@ -31,9 +31,7 @@ Prerequisites
 Installation
 1. Clone the repository:
 git clone
-[https://github.com/your-username/kenya-ag-advisor.git](https://github.com/your-usern
-ame/kenya-ag-advisor.git)
-cd kenya-ag-advisor
+
 2. Create and activate a virtual environment:
 python3 -m venv venv
 source venv/bin/activate # On Windows, use `venv\Scripts\activate`
@@ -43,7 +41,7 @@ Environment Variables
 1. Create a .env file in the root directory.
 2. Add your API keys to the file:
 GEMINI_API_KEY=your_gemini_api_key_here
-WEATHER_API_KEY=your_openweather_api_key_here
+OPEN_WEATHER_API_KEY=your_openweather_api_key_here
 Running the Application
 1. From the project's root directory, start the Flask application:
 python app.py
