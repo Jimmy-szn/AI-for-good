@@ -1,5 +1,4 @@
-🌱 Kenya Regenerative Agriculture
-Advisor
+🌱 Kenya Regenerative Agriculture Advisor
 A web application that uses Gemini AI to provide personalized regenerative agriculture advice
 to smallholder farmers in Kenya.
 🌟 Overview
@@ -21,7 +20,6 @@ CSS, and plain JavaScript, ensuring it works well on both desktop and mobile dev
 ● Data: Local Python data files for Kenyan crops and soil types
 ● Weather API: OpenWeatherMap API
 ● Frontend: HTML, CSS (Tailwind CSS), JavaScript
-● Deployment: Gunicorn for production, managed on platforms like Render
 🚀 Getting Started
 Prerequisites
 1. Python 3.8+
