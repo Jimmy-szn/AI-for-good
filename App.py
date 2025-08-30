@@ -192,6 +192,21 @@ def not_found(error):
 def server_error(error):
     return jsonify({'error': 'Internal server error'}), 500
 
+@app.route('/dashboard')
+def dashboard():
+    """Dashboard page"""
+    return render_template('dashboard.html')
+
+@app.route('/regai')
+def regai():
+    """Redirect to RegAI React app"""
+    return render_template('regai_redirect.html')
+
+@app.route('/chatbot')
+def chatbot():
+    """Chatbot page - placeholder for future implementation"""
+    return render_template('chatbot_placeholder.html')
+
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     debug_mode = os.environ.get('FLASK_ENV') == 'development'
