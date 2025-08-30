@@ -1,0 +1,65 @@
+import React from 'react';
+import { ArrowRight, Globe, Zap } from 'lucide-react';
+
+export default function Hero() {
+  return (
+    <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 via-blue-50 to-white overflow-hidden">
+      {/* Background pattern */}
+      <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
+      
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="space-y-8">
+          {/* Badge */}
+          <div className="inline-flex items-center space-x-2 bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-medium">
+            <Zap className="h-4 w-4" />
+            <span>Hackathon Project 2025</span>
+          </div>
+
+          {/* Main headline */}
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-gray-900 leading-tight">
+            AI-Powered
+            <span className="block bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
+              Regenerative Agriculture
+            </span>
+            <span className="block">Advisor</span>
+          </h1>
+
+          {/* Subtitle */}
+          <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            Empowering small-scale farmers in Kenya with personalized, data-driven plans 
+            to transition to regenerative agriculture and fight climate change.
+          </p>
+
+          {/* Stats */}
+          <div className="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-8 text-center">
+            <div className="flex items-center space-x-2">
+              <Globe className="h-5 w-5 text-green-600" />
+              <span className="text-gray-600">Climate Adaptation</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <div className="h-5 w-5 bg-blue-600 rounded-full"></div>
+              <span className="text-gray-600">Carbon Sequestration</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <div className="h-5 w-5 bg-orange-600 rounded-full"></div>
+              <span className="text-gray-600">Soil Health</span>
+            </div>
+          </div>
+
+          {/* CTA Button */}
+          <div className="pt-8">
+            <button className="group inline-flex items-center space-x-2 bg-green-600 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:bg-green-700 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl">
+              <span>Explore the Solution</span>
+              <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Floating elements */}
+      <div className="absolute top-20 left-10 w-20 h-20 bg-green-200 rounded-full opacity-20 animate-pulse"></div>
+      <div className="absolute bottom-20 right-10 w-16 h-16 bg-blue-200 rounded-full opacity-20 animate-pulse delay-1000"></div>
+      <div className="absolute top-1/3 right-20 w-12 h-12 bg-orange-200 rounded-full opacity-20 animate-pulse delay-500"></div>
+    </section>
+  );
+}
