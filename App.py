@@ -1,5 +1,5 @@
 # app.py
-from flask import Flask, render_template, request, jsonify, send_from_directory
+from flask import Flask, render_template, request, jsonify, session, send_from_directory
 from utils.gemini_advisor import RegenerativeAdvisor
 from utils.weather_service import WeatherService
 from data.kenya_agriculture import KENYA_CROPS, SOIL_TYPES, KENYAN_REGIONS
