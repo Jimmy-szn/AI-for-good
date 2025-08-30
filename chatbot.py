@@ -1,3 +1,4 @@
+# chatbot.py
 from flask import Flask, render_template, request, jsonify
 from datetime import datetime
 import json
@@ -153,39 +154,39 @@ def generate_chatbot_response(question, plan_context=""):
     q = question.lower()
 
     if any(word in q for word in ['weather', 'rain', 'drought', 'climate']):
-        return """🌤️ *Weather & Climate Tips:*
-* Monitor forecasts & plan planting accordingly
-* Mulch heavily during dry seasons
-* Improve drainage during heavy rains
-* Use climate-smart crop varieties"""
+        return """🌤️ **Weather & Climate Tips:**
+• Monitor forecasts & plan planting accordingly
+• Mulch heavily during dry seasons
+• Improve drainage during heavy rains
+• Use climate-smart crop varieties"""
 
     elif any(word in q for word in ['soil', 'fertility', 'nutrients', 'compost']):
-        return """🏔️ *Soil Health Tips:*
-* Test soil pH regularly (6.0-7.0 optimal)
-* Add compost or manure regularly
-* Reduce tillage & use cover crops"""
+        return """🏔️ **Soil Health Tips:**
+• Test soil pH regularly (6.0-7.0 optimal)
+• Add compost or manure regularly
+• Reduce tillage & use cover crops"""
 
     elif any(word in q for word in ['pest', 'disease', 'insect']):
-        return """🐛 *Pest Management:*
-* Use marigolds & basil for natural pest control
-* Neem oil & organic extracts are effective
-* Rotate crops yearly to break pest cycles"""
+        return """🐛 **Pest Management:**
+• Use marigolds & basil for natural pest control
+• Neem oil & organic extracts are effective
+• Rotate crops yearly to break pest cycles"""
 
     elif any(crop in q for crop in AGRICULTURE_KNOWLEDGE['crops']):
         crop_mentioned = next((crop for crop in AGRICULTURE_KNOWLEDGE['crops'] if crop in q), None)
         if crop_mentioned:
             crop_info = AGRICULTURE_KNOWLEDGE['crops'][crop_mentioned]
-            response = f"🌾 *{crop_mentioned.title()} Farming Tips:*\n"
+            response = f"🌾 **{crop_mentioned.title()} Farming Tips:**\n"
             for section, tips in crop_info.items():
-                response += f"\n*{section.replace('_', ' ').title()}:*\n"
+                response += f"\n**{section.replace('_', ' ').title()}:**\n"
                 for tip in tips:
                     response += f"• {tip}\n"
             return response
 
-    return """🌱 *General Regenerative Agriculture Tips:*
-* Build soil health using compost
-* Diversify crops & rotate seasons
-* Use cover crops & minimal tillage"""
+    return """🌱 **General Regenerative Agriculture Tips:**
+• Build soil health using compost
+• Diversify crops & rotate seasons
+• Use cover crops & minimal tillage"""
 
 def generate_farming_plan(location, size, crops, soil_type, experience, goals):
     """Generate a full regenerative agriculture plan"""
@@ -239,5 +240,5 @@ def get_weather_info(location):
         'forecast': 'Light rain expected in 2-3 days'
     }
 
-if _name_ == '_main_':
+if __name__ == '__main__':
     app.run(debug=True)
