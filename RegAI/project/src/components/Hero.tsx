@@ -4,7 +4,6 @@ import { initializeApp, FirebaseApp } from 'firebase/app';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, User, Auth } from 'firebase/auth';
 import { FirebaseError } from 'firebase/app';
 
-// Define the type for the message state
 interface Message {
   text: string;
   type: 'success' | 'error' | 'info';
@@ -13,18 +12,14 @@ interface Message {
 const HeroSection: React.FC<{ onNavigate: () => void }> = ({ onNavigate }) => {
   return (
     <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 via-blue-50 to-white overflow-hidden">
-      {/* Background pattern */}
       <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
       
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <div className="space-y-8">
-          {/* Badge */}
           <div className="inline-flex items-center space-x-2 bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-medium">
             <Zap className="h-4 w-4" />
             <span>Hackathon Project 2025</span>
           </div>
-
-          {/* Main headline */}
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-gray-900 leading-tight">
             AI-Powered
             <span className="block bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
@@ -32,14 +27,10 @@ const HeroSection: React.FC<{ onNavigate: () => void }> = ({ onNavigate }) => {
             </span>
             <span className="block">Advisor</span>
           </h1>
-
-          {/* Subtitle */}
           <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Empowering small-scale farmers in Kenya with personalized, data-driven plans 
             to transition to regenerative agriculture and fight climate change.
           </p>
-
-          {/* Stats */}
           <div className="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-8 text-center">
             <div className="flex items-center space-x-2">
               <Globe className="h-5 w-5 text-green-600" />
@@ -54,8 +45,6 @@ const HeroSection: React.FC<{ onNavigate: () => void }> = ({ onNavigate }) => {
               <span className="text-gray-600">Soil Health</span>
             </div>
           </div>
-
-          {/* CTA Button */}
           <div className="pt-8">
             <button 
               onClick={onNavigate} 
@@ -67,8 +56,6 @@ const HeroSection: React.FC<{ onNavigate: () => void }> = ({ onNavigate }) => {
           </div>
         </div>
       </div>
-
-      {/* Floating elements */}
       <div className="absolute top-20 left-10 w-20 h-20 bg-green-200 rounded-full opacity-20 animate-pulse"></div>
       <div className="absolute bottom-20 right-10 w-16 h-16 bg-blue-200 rounded-full opacity-20 animate-pulse delay-1000"></div>
       <div className="absolute top-1/3 right-20 w-12 h-12 bg-orange-200 rounded-full opacity-20 animate-pulse delay-500"></div>
@@ -76,7 +63,12 @@ const HeroSection: React.FC<{ onNavigate: () => void }> = ({ onNavigate }) => {
   );
 };
 
-const SignupForm: React.FC<{ onNavigate: () => void }> = ({ onNavigate }) => {
+interface SignupFormProps {
+  onNavigateToHero: () => void;
+  onNavigateToDashboard: () => void;
+}
+
+const SignupForm: React.FC<SignupFormProps> = ({ onNavigateToHero, onNavigateToDashboard }) => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [isLoginView, setIsLoginView] = useState<boolean>(false);
@@ -102,12 +94,10 @@ const SignupForm: React.FC<{ onNavigate: () => void }> = ({ onNavigate }) => {
       const firebaseAuth: Auth = getAuth(app);
       setAuth(firebaseAuth);
 
-      // Set up a listener for authentication state changes
       const unsubscribe = onAuthStateChanged(firebaseAuth, (currentUser) => {
         setUser(currentUser);
       });
 
-      // Cleanup the listener on component unmount
       return () => unsubscribe();
     } catch (error) {
       console.error("Firebase initialization failed:", error);
@@ -123,12 +113,16 @@ const SignupForm: React.FC<{ onNavigate: () => void }> = ({ onNavigate }) => {
       if (action === 'register') {
         if (auth) {
           await createUserWithEmailAndPassword(auth, email, password);
-          showMessage('Registration successful! You are now signed in.', 'success');
+          showMessage('Registration successful! Redirecting...', 'success');
+          // Redirect the user to their dashboard URL after successful registration
+          window.location.href = '/dashboard'; 
         }
       } else {
         if (auth) {
           await signInWithEmailAndPassword(auth, email, password);
-          showMessage('Sign-in successful! Welcome back.', 'success');
+          showMessage('Sign-in successful! Redirecting...', 'success');
+          // Redirect the user to their dashboard URL after successful sign-in
+          window.location.href = '/dashboard';
         }
       }
     } catch (error: unknown) {
@@ -143,43 +137,14 @@ const SignupForm: React.FC<{ onNavigate: () => void }> = ({ onNavigate }) => {
     }
   };
 
-  const handleLogout = (): void => {
-    if (auth) {
-      auth.signOut();
-      showMessage('You have been signed out.', 'info');
-      setEmail('');
-      setPassword('');
-    }
-  };
-
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 space-y-6">
         <h1 className="text-3xl font-bold text-center text-gray-800">User Authentication</h1>
         <p className="text-center text-gray-600">
-          {user ? 'Welcome! You are logged in.' : 'Register or sign in to your account.'}
+          Register or sign in to your account.
         </p>
-
-        {user ? (
-          // Logged-in view
-          <div className="space-y-4 text-center">
-            <p className="text-xl font-semibold text-gray-700">Hello, {user.email}!</p>
-            <button
-              onClick={handleLogout}
-              className="w-full bg-red-600 text-white font-bold py-3 rounded-xl hover:bg-red-700 transition transform hover:scale-105 shadow-md"
-            >
-              Log Out
-            </button>
-            <button
-              onClick={onNavigate}
-              className="w-full bg-gray-400 text-white font-bold py-3 rounded-xl hover:bg-gray-500 transition transform hover:scale-105 shadow-md"
-            >
-              Back to Hero Page
-            </button>
-          </div>
-        ) : (
-          // Auth forms view
-          <div className="space-y-6">
+        <div className="space-y-6">
             <div className={`${!isLoginView ? '' : 'hidden'} space-y-4`}>
               <h2 className="text-2xl font-semibold text-center text-gray-700">Register</h2>
               <input
@@ -240,14 +205,12 @@ const SignupForm: React.FC<{ onNavigate: () => void }> = ({ onNavigate }) => {
               </p>
             </div>
             <button
-              onClick={onNavigate}
+              onClick={onNavigateToHero}
               className="w-full bg-gray-400 text-white font-bold py-3 rounded-xl hover:bg-gray-500 transition transform hover:scale-105 shadow-md"
             >
               Back to Hero Page
             </button>
           </div>
-        )}
-
         {message && (
           <div
             className={`p-4 rounded-xl text-center font-medium ${
@@ -264,16 +227,54 @@ const SignupForm: React.FC<{ onNavigate: () => void }> = ({ onNavigate }) => {
 
 const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<'hero' | 'signup'>('hero');
+  const [user, setUser] = useState<User | null>(null);
+  const [auth, setAuth] = useState<Auth | null>(null);
+
+  useEffect(() => {
+    // Your Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyBR10w5x0yHHHPX65VqKZDJDxhZRrKP_Ik",
+      authDomain: "rage-ai-b2c1c.firebaseapp.com",
+      projectId: "rage-ai-b2c1c",
+      storageBucket: "rage-ai-b2c1c.firebasestorage.app",
+      messagingSenderId: "998750086948",
+      appId: "1:998750086948:web:c7d3c7cec16957a14035b1",
+      measurementId: "G-P6T69G1FTD"
+    };
+
+    try {
+      const app: FirebaseApp = initializeApp(firebaseConfig);
+      const firebaseAuth: Auth = getAuth(app);
+      setAuth(firebaseAuth);
+
+      const unsubscribe = onAuthStateChanged(firebaseAuth, (currentUser) => {
+        setUser(currentUser);
+        if (currentUser) {
+          // If a user is logged in, redirect them to the dashboard
+          window.location.href = '/dashboard';
+        }
+      });
+
+      return () => unsubscribe();
+    } catch (error) {
+      console.error("Firebase initialization failed:", error);
+    }
+  }, []);
 
   const navigateToSignup = () => setCurrentPage('signup');
   const navigateToHero = () => setCurrentPage('hero');
+
+  if (user) {
+    // If user is already logged in, show a redirect message while the redirect happens
+    return <div className="flex items-center justify-center min-h-screen">Redirecting to dashboard...</div>;
+  }
 
   return (
     <div>
       {currentPage === 'hero' ? (
         <HeroSection onNavigate={navigateToSignup} />
       ) : (
-        <SignupForm onNavigate={navigateToHero} />
+        <SignupForm onNavigateToHero={navigateToHero} onNavigateToDashboard={() => window.location.href = '/dashboard'} />
       )}
     </div>
   );
