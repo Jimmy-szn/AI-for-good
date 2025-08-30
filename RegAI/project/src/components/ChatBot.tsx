@@ -1,9 +1,82 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+
+type Message = {
+  text: string;
+  sender: 'user' | 'bot';
+};
 
 const ChatBot: React.FC = () => {
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [input, setInput] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(scrollToBottom, [messages]);
+
+  const handleSend = async () => {
+    if (!input.trim() || isLoading) return;
+
+    const userMessage = { text: input, sender: 'user' };
+    setMessages(prev => [...prev, userMessage as Message]);
+    setInput('');
+    setIsLoading(true);
+
+    try {
+      const response = await fetch('http://localhost:5000/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message: input }),
+      });
+
+      const data = await response.json();
+      
+      if (data.error) {
+        setMessages(prev => [...prev, { 
+          text: `Error: ${data.error}`, 
+          sender: 'bot' 
+        }]);
+      } else {
+        setMessages(prev => [...prev, { 
+          text: data.response, 
+          sender: 'bot' 
+        }]);
+      }
+    } catch {
+      setMessages(prev => [...prev, { 
+        text: 'Failed to connect to the server. Please make sure the Flask server is running.', 
+        sender: 'bot' 
+      }]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  interface UserMessage {
+    text: string;
+    sender: 'user';
+  }
+
+  interface BotMessage {
+    text: string;
+    sender: 'bot';
+  }
+
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+    if (e.key === 'Enter') {
+      handleSend();
+    }
+  };
+
   return (
     <div className="flex h-screen bg-gray-50">
-      {/* Sidebar */}
+      {/* Sidebar (unchanged) */}
       <div className="w-64 bg-white shadow-lg">
         <div className="p-6">
           <h1 className="text-2xl font-bold text-gray-800">ADStudio</h1>
@@ -63,7 +136,7 @@ const ChatBot: React.FC = () => {
           <div className="flex justify-between items-center">
             <div>
               <h2 className="text-2xl font-bold text-gray-800">Chat Bot</h2>
-              <p className="text-gray-600">AI-powered conversation assistant</p>
+              <p className="text-gray-600">AI-powered farming assistant</p>
             </div>
             <div className="flex items-center space-x-4">
               <div className="relative">
@@ -82,50 +155,91 @@ const ChatBot: React.FC = () => {
         </header>
 
         {/* Chat Bot Content */}
-        <main className="flex-1 p-8 flex items-center justify-center">
-          <div className="text-center max-w-md">
-            <div className="bg-white rounded-lg shadow-lg p-8">
-              <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <svg className="w-10 h-10 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clipRule="evenodd"/>
-                </svg>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-4">Chat Bot Coming Soon</h3>
-              <p className="text-gray-600 mb-6">
-                Our AI-powered chat bot is currently under development. It will provide intelligent assistance for your regenerative agriculture needs.
-              </p>
-              <div className="space-y-3 text-sm text-gray-500">
-                <div className="flex items-center">
-                  <svg className="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
+        <main className="flex-1 flex flex-col p-6 bg-gray-100">
+          <div className="flex-1 bg-white rounded-lg shadow-md p-4 mb-4 overflow-y-auto">
+            {messages.length === 0 ? (
+              <div className="h-full flex flex-col items-center justify-center text-center">
+                <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <svg className="w-10 h-10 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clipRule="evenodd"/>
                   </svg>
-                  <span>24/7 AI assistance</span>
                 </div>
-                <div className="flex items-center">
-                  <svg className="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
-                  </svg>
-                  <span>Farming advice and tips</span>
-                </div>
-                <div className="flex items-center">
-                  <svg className="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
-                  </svg>
-                  <span>Weather and crop recommendations</span>
-                </div>
-                <div className="flex items-center">
-                  <svg className="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
-                  </svg>
-                  <span>Multi-language support</span>
-                </div>
-              </div>
-              <div className="mt-8 pt-6 border-t border-gray-200">
-                <p className="text-xs text-gray-500">
-                  Expected launch: Q1 2024
+                <h3 className="text-xl font-semibold text-gray-800 mb-4">Farming Assistant</h3>
+                <p className="text-gray-600 mb-6 max-w-md">
+                  Ask me anything about farming, crops, soil management, regenerative agriculture, or sustainable farming practices.
                 </p>
+                <div className="space-y-3 text-sm text-gray-500">
+                  <div className="flex items-center">
+                    <svg className="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
+                    </svg>
+                    <span>24/7 farming assistance</span>
+                  </div>
+                  <div className="flex items-center">
+                    <svg className="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
+                    </svg>
+                    <span>Regenerative agriculture expertise</span>
+                  </div>
+                  <div className="flex items-center">
+                    <svg className="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
+                    </svg>
+                    <span>Crop and soil recommendations</span>
+                  </div>
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className="space-y-4">
+                {messages.map((message, index) => (
+                  <div
+                    key={index}
+                    className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+                  >
+                    <div
+                      className={`max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl rounded-lg px-4 py-2 ${
+                        message.sender === 'user'
+                          ? 'bg-blue-600 text-white'
+                          : 'bg-gray-200 text-gray-800'
+                      }`}
+                    >
+                      {message.text}
+                    </div>
+                  </div>
+                ))}
+                {isLoading && (
+                  <div className="flex justify-start">
+                    <div className="bg-gray-200 text-gray-800 rounded-lg px-4 py-2">
+                      <div className="flex space-x-2">
+                        <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce"></div>
+                        <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                        <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                <div ref={messagesEndRef} />
+              </div>
+            )}
+          </div>
+          
+          <div className="flex items-center">
+            <input
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyPress={handleKeyPress}
+              placeholder="Ask a farming question..."
+              className="flex-1 border border-gray-300 rounded-l-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              disabled={isLoading}
+            />
+            <button
+              onClick={handleSend}
+              disabled={isLoading}
+              className="bg-blue-600 text-white px-6 py-3 rounded-r-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
+            >
+              Send
+            </button>
           </div>
         </main>
       </div>
