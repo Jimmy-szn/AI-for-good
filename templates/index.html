@@ -1,0 +1,164 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kenya Regenerative Agriculture Advisor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="bg-gradient-to-br from-green-50 to-blue-50 min-h-screen">
+    
+    <!-- Header -->
+    <div class="bg-green-600 text-white py-6">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-3xl font-bold mb-2">🌱 Kenya Regenerative Agriculture Advisor</h1>
+            <p class="text-green-100">AI-powered farming plans for sustainable agriculture</p>
+        </div>
+    </div>
+
+    <div class="container mx-auto px-4 py-8">
+        
+        <!-- Farm Input Form -->
+        <div class="max-w-4xl mx-auto">
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-6">Tell Us About Your Farm</h2>
+                
+                <form id="farmForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    
+                    <!-- Location -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            📍 County Location
+                        </label>
+                        <select id="location" required class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500">
+                            <option value="">Select your county...</option>
+                            <option value="Nakuru">Nakuru</option>
+                            <option value="Kiambu">Kiambu</option>
+                            <option value="Machakos">Machakos</option>
+                            <option value="Kakamega">Kakamega</option>
+                            <option value="Uasin Gishu">Uasin Gishu</option>
+                            <option value="Kisumu">Kisumu</option>
+                            <option value="Meru">Meru</option>
+                            <option value="Kitui">Kitui</option>
+                        </select>
+                    </div>
+
+                    <!-- Farm Size -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            📏 Farm Size
+                        </label>
+                        <div class="flex">
+                            <input type="number" id="size" step="0.1" min="0.1" required 
+                                   placeholder="2.5" class="flex-1 p-3 border border-gray-300 rounded-l-md focus:ring-2 focus:ring-green-500">
+                            <span class="bg-gray-100 border border-l-0 border-gray-300 rounded-r-md px-3 py-3 text-sm">acres</span>
+                        </div>
+                    </div>
+
+                    <!-- Current Crops -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            🌾 Main Crop
+                        </label>
+                        <select id="crops" required class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500">
+                            <option value="">Choose primary crop...</option>
+                            <option value="maize">Maize (Corn)</option>
+                            <option value="beans">Beans</option>
+                            <option value="sorghum">Sorghum</option>
+                            <option value="sweet_potato">Sweet Potato</option>
+                        </select>
+                    </div>
+
+                    <!-- Soil Type -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            🏔️ Soil Type
+                        </label>
+                        <select id="soil_type" required class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500">
+                            <option value="">Select soil type...</option>
+                            <option value="clay">Clay (heavy, retains water)</option>
+                            <option value="loamy">Loamy (balanced, ideal)</option>
+                            <option value="sandy">Sandy (light, drains fast)</option>
+                            <option value="volcanic">Volcanic (dark, fertile)</option>
+                            <option value="black_cotton">Black Cotton (swells/shrinks)</option>
+                        </select>
+                    </div>
+
+                    <!-- Experience Level -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            👨‍🌾 Farming Experience
+                        </label>
+                        <select id="experience" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500">
+                            <option value="beginner">New to regenerative farming</option>
+                            <option value="intermediate">Some sustainable practices</option>
+                            <option value="experienced">Experienced farmer</option>
+                        </select>
+                    </div>
+
+                    <!-- Goals -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            🎯 Primary Goal
+                        </label>
+                        <select id="goals" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500">
+                            <option value="increase_yield">Increase crop yield</option>
+                            <option value="improve_soil">Improve soil health</option>
+                            <option value="water_conservation">Better water management</option>
+                            <option value="climate_resilience">Climate resilience</option>
+                            <option value="reduce_costs">Reduce input costs</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Submit Button -->
+                <div class="mt-8 text-center">
+                    <button type="submit" id="generateBtn" 
+                            class="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-8 rounded-lg transform transition hover:scale-105">
+                        🧠 Generate My Regenerative Plan
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loading" class="hidden text-center py-8">
+            <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-green-600"></div>
+            <p class="mt-2 text-gray-600">Analyzing your farm and generating personalized advice...</p>
+        </div>
+
+        <!-- Results Section -->
+        <div id="results" class="hidden max-w-6xl mx-auto">
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                
+                <!-- Weather Info -->
+                <div id="weatherInfo" class="bg-blue-50 rounded-lg p-4 mb-6">
+                    <h3 class="font-semibold text-blue-800 mb-2">🌤️ Current Conditions</h3>
+                    <div id="weatherDetails" class="text-blue-700"></div>
+                </div>
+
+                <!-- Generated Plan -->
+                <div class="prose max-w-none">
+                    <div id="planContent" class="text-gray-800"></div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="mt-8 flex flex-wrap gap-4 justify-center">
+                    <button onclick="window.print()" 
+                            class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg">
+                        📄 Print Plan
+                    </button>
+                    <button onclick="generateNewPlan()" 
+                            class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-2 rounded-lg">
+                        🔄 Create New Plan
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
