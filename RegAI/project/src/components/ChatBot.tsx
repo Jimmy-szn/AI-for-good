@@ -12,13 +12,13 @@ const ChatBot: React.FC = () => {
         <div className="px-4">
           <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">MAIN MENU</h3>
           <nav className="space-y-2">
-            <a href="#dashboard" className="flex items-center px-4 py-3 rounded-lg transition-colors text-gray-600 hover:bg-gray-100">
+            <a href="#dashboard" className="flex items-center px-4 py-3 rounded-lg transition-colors text-gray-600 hover:bg-gray-100" onClick={() => window.location.hash = 'dashboard'}>
               <svg className="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
               </svg>
               Dashboard
             </a>
-            <a href="#home" className="flex items-center px-4 py-3 rounded-lg transition-colors text-gray-600 hover:bg-gray-100">
+            <a href="#home" className="flex items-center px-4 py-3 rounded-lg transition-colors text-gray-600 hover:bg-gray-100" onClick={() => window.location.hash = 'home'}>
               <svg className="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
               </svg>

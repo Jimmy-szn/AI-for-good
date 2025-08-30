@@ -1,5 +1,5 @@
 # app.py
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, send_from_directory
 from utils.gemini_advisor import RegenerativeAdvisor
 from utils.weather_service import WeatherService
 from data.kenya_agriculture import KENYA_CROPS, SOIL_TYPES, KENYAN_REGIONS
@@ -69,6 +69,11 @@ def quick_tips():
 def dashboard():
     """Dashboard page"""
     return render_template('dashboard.html')
+
+@app.route('/RegAI/project/dashboard.html')
+def regai_dashboard():
+    """Serve the RegAI dashboard HTML file"""
+    return send_from_directory('RegAI/project', 'dashboard.html')
 
 @app.route('/regai')
 def regai():
