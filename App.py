@@ -65,5 +65,20 @@ def quick_tips():
     except:
         return jsonify({'tips': 'Tips temporarily unavailable. Please try the full plan generator.'})
 
+@app.route('/dashboard')
+def dashboard():
+    """Dashboard page"""
+    return render_template('dashboard.html')
+
+@app.route('/regai')
+def regai():
+    """Redirect to RegAI React app"""
+    return render_template('regai_redirect.html')
+
+@app.route('/chatbot')
+def chatbot():
+    """Chatbot page - placeholder for future implementation"""
+    return render_template('chatbot_placeholder.html')
+
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
