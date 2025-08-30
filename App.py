@@ -117,7 +117,7 @@ def home():
     return render_template('index.html', 
                          crops=KENYA_CROPS,
                          soil_types=SOIL_TYPES,
-                         counties=sorted(KENYAN_COUNTIES),
+                         counties=sorted(KENYAN_REGIONS),
                          current_year=datetime.now().year)
 
 @app.route('/plan')

@@ -1,342 +1,150 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ADStudio Dashboard</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        .sidebar-item:hover {
-            background-color: #f3f4f6;
-        }
-        .sidebar-item.active {
-            background-color: #1e40af;
-            color: white;
-        }
-        .metric-card {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-        .chart-container {
-            height: 60px;
-            position: relative;
-        }
-        .mini-chart {
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, #10b981 0%, #34d399 100%);
-            border-radius: 4px;
-            position: relative;
-            overflow: hidden;
-        }
-        .mini-chart::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20'%3E%3Cpath d='M0,20 L10,15 L20,18 L30,12 L40,16 L50,10 L60,14 L70,8 L80,12 L90,6 L100,10 L100,20 Z' fill='rgba(255,255,255,0.3)'/%3E%3C/svg%3E") repeat-x;
-            background-size: 100px 20px;
-        }
-        .browser-chart {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 12px;
-        }
-        .browser-circle {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 12px;
-        }
-        .browser-legend {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            font-size: 12px;
-        }
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .legend-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ADStudio Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    .sidebar-item:hover {
+      background-color: #f3f4f6;
+    }
+    .sidebar-item.active {
+      background-color: #1e40af;
+      color: white;
+    }
+    .metric-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+  </style>
 </head>
 <body class="bg-gray-50">
-    <div class="flex h-screen">
-        <!-- Sidebar -->
-        <div class="w-64 bg-white shadow-lg">
-            <div class="p-6">
-                <h1 class="text-2xl font-bold text-gray-800">ADStudio</h1>
-            </div>
-            
-            <div class="px-4">
-                <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">MAIN MENU</h3>
-                <nav class="space-y-2">
-                    <a href="/RegAI/project/dashboard.html" class="sidebar-item active flex items-center px-4 py-3 rounded-lg transition-colors">
-                        <i class="fas fa-tachometer-alt mr-3"></i>
-                        Dashboard
-                    </a>
+  <div class="flex h-screen">
+    <!-- Sidebar -->
+    <div class="w-64 bg-white shadow-lg">
+      <div class="p-6">
+        <h1 class="text-2xl font-bold text-gray-800">ADStudio</h1>
+      </div>
+      
+      <div class="px-4">
+        <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">MAIN MENU</h3>
+        <nav class="space-y-2">
+          <a href="/RegAI/project/dashboard.html" class="sidebar-item active flex items-center px-4 py-3 rounded-lg transition-colors">
+            <i class="fas fa-tachometer-alt mr-3"></i>
+            Dashboard
+          </a>
 
-                    <a href="#" id="regaiLink" class="sidebar-item flex items-center px-4 py-3 rounded-lg transition-colors text-gray-600">
-                        <i class="fas fa-robot mr-3"></i>
-                        RegAI
-                    </a>
-                    <a href="#" id="chatbotLink" class="sidebar-item flex items-center px-4 py-3 rounded-lg transition-colors text-gray-600">
-                        <i class="fas fa-comments mr-3"></i>
-                        Chat Bot
-                    </a>
-                </nav>
-                
-                <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 mt-8">PREFERENCES</h3>
-                <nav class="space-y-2">
-                    <a href="#" class="sidebar-item flex items-center px-4 py-3 rounded-lg transition-colors text-gray-600">
-                        <i class="fas fa-cog mr-3"></i>
-                        Settings
-                    </a>
-                    <a href="#" class="sidebar-item flex items-center px-4 py-3 rounded-lg transition-colors text-gray-600">
-                        <i class="fas fa-headset mr-3"></i>
-                        Help Center
-                    </a>
-                </nav>
-            </div>
-        </div>
+        <a href="/RegAI/project/templates/index.html" id="regaiLink" class="sidebar-item flex items-center px-4 py-3 rounded-lg transition-colors text-gray-600">
+            <i class="fas fa-robot mr-3"></i>
+            RegAI
+        </a>
 
-        <!-- Main Content -->
-        <div class="flex-1 flex flex-col">
-            <!-- Header -->
-            <header class="bg-white shadow-sm px-8 py-6">
-                <div class="flex justify-between items-center">
-                    <div>
-                        <h2 class="text-2xl font-bold text-gray-800">Hello Darlene 👋</h2>
-                        <p class="text-gray-600">Let's check your stats today!</p>
-                    </div>
-                    <div class="flex items-center space-x-4">
-                        <div class="relative">
-                            <input type="text" placeholder="Search" class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
-                        </div>
-                        <button class="p-2 text-gray-600 hover:text-gray-800">
-                            <i class="fas fa-bell text-xl"></i>
-                        </button>
-                    </div>
-                </div>
-            </header>
+                  <a href="/RegAI/project/chatbot.html" class="sidebar-item flex items-center px-4 py-3 rounded-lg transition-colors text-gray-600">
+                    <i class="fas fa-comments mr-3"></i>
+                    Chat Bot
+                  </a>
 
-            <!-- Dashboard Content -->
-            <main class="flex-1 p-8 overflow-y-auto">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Total Sessions -->
-                    <div class="metric-card p-6">
-                        <h3 class="text-sm font-medium text-gray-600 mb-2">Total Sessions</h3>
-                        <div class="text-3xl font-bold text-gray-800 mb-2">2.4k+</div>
-                        <div class="flex items-center mb-4">
-                            <i class="fas fa-arrow-up text-green-500 mr-2"></i>
-                            <span class="text-green-500 text-sm">17% last month</span>
-                        </div>
-                        <div class="chart-container">
-                            <div class="mini-chart"></div>
-                        </div>
-                        <div class="text-xs text-gray-500 mt-2">s s m t w t f</div>
-                    </div>
-
-                    <!-- Total Visitors -->
-                    <div class="metric-card p-6">
-                        <h3 class="text-sm font-medium text-gray-600 mb-2">Total Visitors</h3>
-                        <div class="text-3xl font-bold text-gray-800 mb-2">1.6k+</div>
-                        <div class="flex items-center mb-4">
-                            <i class="fas fa-arrow-down text-red-500 mr-2"></i>
-                            <span class="text-red-500 text-sm">17% last month</span>
-                        </div>
-                        <div class="chart-container">
-                            <div class="mini-chart" style="background: linear-gradient(90deg, #ef4444 0%, #f87171 100%);"></div>
-                        </div>
-                        <div class="text-xs text-gray-500 mt-2">s s m t w t f</div>
-                    </div>
-
-                    <!-- Views by Browser -->
-                    <div class="metric-card p-6">
-                        <h3 class="text-sm font-medium text-gray-600 mb-2">Views by Browser</h3>
-                        <div class="browser-chart">
-                            <div class="browser-circle" style="background-color: #1e40af;">44%</div>
-                            <div class="browser-circle" style="background-color: #10b981;">22%</div>
-                            <div class="browser-circle" style="background-color: #6b7280;">18%</div>
-                            <div class="browser-circle" style="background-color: #d97706;">16%</div>
-                        </div>
-                        <div class="browser-legend">
-                            <div class="legend-item">
-                                <div class="legend-dot" style="background-color: #1e40af;"></div>
-                                <span>Explorer</span>
-                            </div>
-                            <div class="legend-item">
-                                <div class="legend-dot" style="background-color: #10b981;"></div>
-                                <span>Safari</span>
-                            </div>
-                            <div class="legend-item">
-                                <div class="legend-dot" style="background-color: #6b7280;"></div>
-                                <span>Chrome</span>
-                            </div>
-                            <div class="legend-item">
-                                <div class="legend-dot" style="background-color: #d97706;"></div>
-                                <span>Firefox</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Time Spent -->
-                    <div class="metric-card p-6">
-                        <h3 class="text-sm font-medium text-gray-600 mb-2">Time Spent</h3>
-                        <div class="text-3xl font-bold text-gray-800 mb-2">8.49</div>
-                        <div class="flex items-center mb-4">
-                            <i class="fas fa-arrow-up text-green-500 mr-2"></i>
-                            <span class="text-green-500 text-sm">17% last month</span>
-                        </div>
-                        <div class="chart-container">
-                            <div class="mini-chart" style="background: linear-gradient(90deg, #8b5cf6 0%, #a78bfa 100%);"></div>
-                        </div>
-                        <div class="text-xs text-gray-500 mt-2">s s m t w t f</div>
-                    </div>
-
-                    <!-- AVG Requests Received -->
-                    <div class="metric-card p-6">
-                        <h3 class="text-sm font-medium text-gray-600 mb-2">AVG Requests Received</h3>
-                        <div class="text-3xl font-bold text-gray-800 mb-2">4.4</div>
-                        <div class="flex items-center mb-4">
-                            <i class="fas fa-arrow-up text-green-500 mr-2"></i>
-                            <span class="text-green-500 text-sm">17% last month</span>
-                        </div>
-                        <div class="chart-container">
-                            <div class="mini-chart" style="background: linear-gradient(90deg, #10b981 0%, #34d399 100%);"></div>
-                        </div>
-                        <div class="text-xs text-gray-500 mt-2">s s m t w t f</div>
-                    </div>
-
-                    <!-- Sessions Top -->
-                    <div class="metric-card p-6">
-                        <h3 class="text-sm font-medium text-gray-600 mb-4">Sessions Top</h3>
-                        <div class="space-y-3">
-                            <div class="flex items-center">
-                                <i class="fab fa-chrome text-blue-600 mr-3"></i>
-                                <span class="text-sm">Chrome</span>
-                            </div>
-                            <div class="flex items-center">
-                                <i class="fab fa-firefox text-orange-600 mr-3"></i>
-                                <span class="text-sm">Firefox</span>
-                            </div>
-                            <div class="flex items-center">
-                                <i class="fab fa-safari text-blue-500 mr-3"></i>
-                                <span class="text-sm">Safari</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Sessions Overview -->
-                    <div class="metric-card p-6 lg:col-span-2">
-                        <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-sm font-medium text-gray-600">Sessions Overview</h3>
-                            <select class="text-sm border border-gray-300 rounded px-2 py-1">
-                                <option>Last 7 days</option>
-                                <option>Last 30 days</option>
-                                <option>Last 90 days</option>
-                            </select>
-                        </div>
-                        <div class="h-48 bg-gray-100 rounded flex items-center justify-center">
-                            <div class="text-center">
-                                <div class="text-2xl font-bold text-gray-800">312</div>
-                                <div class="text-sm text-gray-600">Total Sessions</div>
-                                <div class="text-xs text-gray-500 mt-1">31 March, 2022</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Statistics -->
-                    <div class="metric-card p-6">
-                        <h3 class="text-sm font-medium text-gray-600 mb-4">Statistics</h3>
-                        <div class="space-y-3">
-                            <div class="flex justify-between items-center">
-                                <span class="text-sm">Online Visitors</span>
-                                <span class="text-sm font-semibold text-green-600">24</span>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-sm">Page Views</span>
-                                <span class="text-sm font-semibold">1,234</span>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-sm">Bounce Rate</span>
-                                <span class="text-sm font-semibold text-red-600">23%</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </main>
-        </div>
+          <!-- ✅ New Analysis Button -->
+          <a href="#" id="analysisLink" class="sidebar-item flex items-center px-4 py-3 rounded-lg transition-colors text-gray-600">
+            <i class="fas fa-chart-line mr-3"></i>
+            Analysis
+          </a>
+        </nav>
+        
+        <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 mt-8">PREFERENCES</h3>
+        <nav class="space-y-2">
+          <a href="#" class="sidebar-item flex items-center px-4 py-3 rounded-lg transition-colors text-gray-600">
+            <i class="fas fa-cog mr-3"></i>
+            Settings
+          </a>
+          <a href="#" class="sidebar-item flex items-center px-4 py-3 rounded-lg transition-colors text-gray-600">
+            <i class="fas fa-headset mr-3"></i>
+            Help Center
+          </a>
+        </nav>
+      </div>
     </div>
 
-    <script>
-        // Dynamic port detection and URL setting
-        function setDynamicUrls() {
-            const currentPort = window.location.port || '80';
-            const baseUrl = `http://127.0.0.1:${currentPort}`;
-            const reactPort = '5175'; // React app port
-            
-            // Set RegAI link
-            const regaiLink = document.getElementById('regaiLink');
-            if (regaiLink) {
-                regaiLink.href = `${baseUrl}/templates/index.html`;
-            }
-            
-            // Set Chat Bot link to React component
-            const chatbotLink = document.getElementById('chatbotLink');
-            if (chatbotLink) {
-                chatbotLink.href = `http://localhost:${reactPort}/#chatbot`;
-            }
-            
-            console.log('Dashboard URLs set dynamically:', {
-                regai: regaiLink?.href,
-                chatbot: chatbotLink?.href,
-                currentPort: currentPort,
-                reactPort: reactPort
-            });
-        }
-        
-        // Set URLs when page loads
-        document.addEventListener('DOMContentLoaded', setDynamicUrls);
-        
-        // Also set URLs immediately if DOM is already loaded
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', setDynamicUrls);
-        } else {
-            setDynamicUrls();
-        }
-        
-        // Add hover effects for sidebar items
-        document.querySelectorAll('.sidebar-item').forEach(item => {
-            item.addEventListener('mouseenter', function() {
-                if (!this.classList.contains('active')) {
-                    this.style.backgroundColor = '#f3f4f6';
-                }
-            });
-            
-            item.addEventListener('mouseleave', function() {
-                if (!this.classList.contains('active')) {
-                    this.style.backgroundColor = '';
-                }
-            });
-        });
-    </script>
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col">
+      <!-- Header -->
+      <header class="bg-white shadow-sm px-8 py-6">
+        <div class="flex justify-between items-center">
+          <div>
+            <h2 class="text-2xl font-bold text-gray-800">Hello Darlene 👋</h2>
+            <p class="text-gray-600">Let's check your stats today!</p>
+          </div>
+          <div class="flex items-center space-x-4">
+            <div class="relative">
+              <input type="text" placeholder="Search" class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+            </div>
+            <button class="p-2 text-gray-600 hover:text-gray-800">
+              <i class="fas fa-bell text-xl"></i>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Dashboard Content -->
+      <main class="flex-1 p-8 overflow-y-auto">
+        <!-- Default dashboard section -->
+        <div id="dashboardContent">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Example card -->
+            <div class="metric-card p-6">
+              <h3 class="text-sm font-medium text-gray-600 mb-2">Total Sessions</h3>
+              <div class="text-3xl font-bold text-gray-800 mb-2">2.4k+</div>
+              <div class="flex items-center mb-4">
+                <i class="fas fa-arrow-up text-green-500 mr-2"></i>
+                <span class="text-green-500 text-sm">17% last month</span>
+              </div>
+              <div class="h-20 bg-gray-100 rounded"></div>
+            </div>
+            <!-- Add your other metric cards here -->
+          </div>
+        </div>
+
+        <!-- ✅ Analysis iframe (hidden until button is clicked) -->
+        <div id="analysisContent" class="hidden h-[600px]">
+          <iframe
+            src="https://app.powerbi.com/view?r=eyJrIjoiOGU3MmU5N2UtMzFjZS00MTMwLWIwMTktMGIxMmI5NmZkOWQwIiwidCI6ImY0YjVkZGQzLTIzYzYtNGZhZS1iNTkwLTI0NzMzNDQ5ZWUyYSIsImMiOjh9"
+            title="AiForGood Analysis"
+            class="w-full h-full border-0 rounded-lg shadow"
+            allowfullscreen>
+          </iframe>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    // Dynamic links
+    function setDynamicUrls() {
+      const currentPort = window.location.port || '80';
+      const baseUrl = `http://127.0.0.1:${currentPort}`;
+      const reactPort = '5175'; // React app port
+      
+      const regaiLink = document.getElementById('regaiLink');
+      if (regaiLink) regaiLink.href = `${baseUrl}/templates/index.html`;
+
+      const chatbotLink = document.getElementById('chatbotLink');
+      if (chatbotLink) chatbotLink.href = `http://localhost:${reactPort}/#chatbot`;
+    }
+    document.addEventListener('DOMContentLoaded', setDynamicUrls);
+
+    // ✅ Toggle Analysis view
+    const analysisLink = document.getElementById('analysisLink');
+    if (analysisLink) {
+      analysisLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.getElementById('dashboardContent').classList.add('hidden');
+        document.getElementById('analysisContent').classList.remove('hidden');
+      });
+    }
+  </script>
 </body>
 </html>

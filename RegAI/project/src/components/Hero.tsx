@@ -62,7 +62,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
       <div className="absolute top-1/3 right-20 w-12 h-12 bg-orange-200 rounded-full opacity-20 animate-pulse delay-500"></div>
     </section>
   );
-};
+}
 
 interface SignupFormProps {
   onNavigateToHero: () => void;
@@ -467,12 +467,20 @@ const App: React.FC = () => {
     return <div className="flex items-center justify-center min-h-screen text-gray-600">Loading...</div>;
   }
 
+  // Redirect to dashboard.html if user is authenticated and on dashboard page
+  useEffect(() => {
+    if (currentPage === 'dashboard' && user) {
+      window.location.href = '/dashboard.html';
+    }
+  }, [currentPage, user]);
+
   return (
     <div>
       {currentPage === 'hero' && <HeroSection onNavigate={navigateToSignup} />}
       {currentPage === 'signup' && <SignupForm onNavigateToHero={navigateToHero} onAuthComplete={() => setCurrentPage('dashboard')} auth={auth} />}
       {currentPage === 'dashboard' && user && <Dashboard onLogout={handleSignOut} user={user} />}
     </div>
+  );
   );
 };
 
