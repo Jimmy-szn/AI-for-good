@@ -29,6 +29,12 @@ export default function Header({ mobileMenuOpen, setMobileMenuOpen }: HeaderProp
             <a href="#technical" className="text-gray-600 hover:text-green-600 transition-colors font-medium">
               Technical
             </a>
+            <a href="#dashboard" className="text-gray-600 hover:text-green-600 transition-colors font-medium">
+              Dashboard
+            </a>
+            <a href="#chatbot" className="text-gray-600 hover:text-green-600 transition-colors font-medium">
+              Chat Bot
+            </a>
             <button className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors font-medium">
               Get Started
             </button>
@@ -57,6 +63,12 @@ export default function Header({ mobileMenuOpen, setMobileMenuOpen }: HeaderProp
           </a>
           <a href="#technical" className="block py-2 text-gray-600 hover:text-green-600 transition-colors">
             Technical
+          </a>
+          <a href="#dashboard" className="block py-2 text-gray-600 hover:text-green-600 transition-colors">
+            Dashboard
+          </a>
+          <a href="#chatbot" className="block py-2 text-gray-600 hover:text-green-600 transition-colors">
+            Chat Bot
           </a>
           <button className="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition-colors mt-4">
             Get Started
