@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatBot - Coming Soon</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .sidebar-item:hover {
+            background-color: #f3f4f6;
+        }
+        .sidebar-item.active {
+            background-color: #1e40af;
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div class="w-64 bg-white shadow-lg">
+            <div class="p-6">
+                <h1 class="text-2xl font-bold text-gray-800">ADStudio</h1>
+            </div>
+            
+            <div class="px-4">
+                <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">MAIN MENU</h3>
+                <nav class="space-y-2">
+                    <a href="/RegAI/project/dashboard.html" class="sidebar-item flex items-center px-4 py-3 rounded-lg transition-colors text-gray-600">
+                        <i class="fas fa-tachometer-alt mr-3"></i>
+                        Dashboard
+                    </a>
+                    <a href="/" class="sidebar-item flex items-center px-4 py-3 rounded-lg transition-colors text-gray-600">
+                        <i class="fas fa-home mr-3"></i>
+                        Home
+                    </a>
+                    <a href="/" class="sidebar-item flex items-center px-4 py-3 rounded-lg transition-colors text-gray-600">
+                        <i class="fas fa-robot mr-3"></i>
+                        RegAI
+                    </a>
+                    <a href="/chatbot" class="sidebar-item active flex items-center px-4 py-3 rounded-lg transition-colors">
+                        <i class="fas fa-comments mr-3"></i>
+                        Chat Bot
+                    </a>
+                </nav>
+                
+                <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 mt-8">PREFERENCES</h3>
+                <nav class="space-y-2">
+                    <a href="#" class="sidebar-item flex items-center px-4 py-3 rounded-lg transition-colors text-gray-600">
+                        <i class="fas fa-cog mr-3"></i>
+                        Settings
+                    </a>
+                    <a href="#" class="sidebar-item flex items-center px-4 py-3 rounded-lg transition-colors text-gray-600">
+                        <i class="fas fa-headset mr-3"></i>
+                        Help Center
+                    </a>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col">
+            <!-- Header -->
+            <header class="bg-white shadow-sm px-8 py-6">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-800">AI ChatBot</h2>
+                        <p class="text-gray-600">Coming Soon - Intelligent farming assistant</p>
+                    </div>
+                </div>
+            </header>
+
+            <!-- ChatBot Content -->
+            <main class="flex-1 p-8 overflow-y-auto">
+                <div class="max-w-4xl mx-auto">
+                    <div class="bg-white rounded-lg shadow-lg p-12 text-center">
+                        <div class="mb-8">
+                            <i class="fas fa-robot text-6xl text-blue-500 mb-4"></i>
+                            <h3 class="text-3xl font-bold text-gray-800 mb-4">ChatBot Coming Soon</h3>
+                            <p class="text-lg text-gray-600 mb-8">
+                                Our intelligent AI farming assistant is currently under development. 
+                                Soon you'll be able to chat with our AI to get instant farming advice, 
+                                ask questions about regenerative agriculture, and receive personalized recommendations.
+                            </p>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                            <div class="bg-blue-50 p-6 rounded-lg">
+                                <i class="fas fa-lightbulb text-2xl text-blue-500 mb-3"></i>
+                                <h4 class="font-semibold text-gray-800 mb-2">Smart Advice</h4>
+                                <p class="text-sm text-gray-600">Get instant, personalized farming recommendations</p>
+                            </div>
+                            <div class="bg-green-50 p-6 rounded-lg">
+                                <i class="fas fa-seedling text-2xl text-green-500 mb-3"></i>
+                                <h4 class="font-semibold text-gray-800 mb-2">Crop Guidance</h4>
+                                <p class="text-sm text-gray-600">Expert tips for sustainable crop management</p>
+                            </div>
+                            <div class="bg-purple-50 p-6 rounded-lg">
+                                <i class="fas fa-cloud-sun text-2xl text-purple-500 mb-3"></i>
+                                <h4 class="font-semibold text-gray-800 mb-2">Weather Insights</h4>
+                                <p class="text-sm text-gray-600">Real-time weather-based farming advice</p>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-50 p-6 rounded-lg">
+                            <h4 class="font-semibold text-gray-800 mb-3">What you'll be able to ask:</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
+                                <div class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-3"></i>
+                                    <span class="text-sm text-gray-600">"What's the best time to plant maize in my area?"</span>
+                                </div>
+                                <div class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-3"></i>
+                                    <span class="text-sm text-gray-600">"How can I improve my soil health naturally?"</span>
+                                </div>
+                                <div class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-3"></i>
+                                    <span class="text-sm text-gray-600">"What crops are best for drought conditions?"</span>
+                                </div>
+                                <div class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mt-1 mr-3"></i>
+                                    <span class="text-sm text-gray-600">"Tell me about regenerative farming techniques"</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Add hover effects for sidebar items
+        document.querySelectorAll('.sidebar-item').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                if (!this.classList.contains('active')) {
+                    this.style.backgroundColor = '#f3f4f6';
+                }
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                if (!this.classList.contains('active')) {
+                    this.style.backgroundColor = '';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
